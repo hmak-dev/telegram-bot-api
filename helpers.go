@@ -47,6 +47,21 @@ func NewMessageToChannel(username string, text string) MessageConfig {
 	}
 }
 
+// NewMessageToGroupTopic creates a new Message that is sent to a supergroup topic.
+//
+// chatID is where to send it, topicID is the supergroup topic id, text is the message text.
+func NewMessageToGroupTopic(chatID int64, topicID int, text string) MessageConfig {
+	return MessageConfig{
+		BaseChat: BaseChat{
+			ChatID:           chatID,
+			MessageThreadID:  topicID,
+			ReplyToMessageID: 0,
+		},
+		Text:                  text,
+		DisableWebPagePreview: false,
+	}
+}
+
 // NewForward creates a new forward.
 //
 // chatID is where to send it, fromChatID is the source chat,
