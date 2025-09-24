@@ -2227,10 +2227,12 @@ func (config DeleteChatStickerSetConfig) params() (Params, error) {
 // Media consist of InputMedia items (InputMediaPhoto, InputMediaVideo).
 type MediaGroupConfig struct {
 	ChatID          int64
+	MessageThreadID int
 	ChannelUsername string
 
 	Media               []interface{}
 	DisableNotification bool
+	ProtectContent      bool
 	ReplyToMessageID    int
 }
 
@@ -2242,7 +2244,9 @@ func (config MediaGroupConfig) params() (Params, error) {
 	params := make(Params)
 
 	params.AddFirstValid("chat_id", config.ChatID, config.ChannelUsername)
+	params.AddNonZero("message_thread_id", config.MessageThreadID)
 	params.AddBool("disable_notification", config.DisableNotification)
+	params.AddBool("protect_content", config.ProtectContent)
 	params.AddNonZero("reply_to_message_id", config.ReplyToMessageID)
 
 	err := params.AddInterface("media", prepareInputMediaForParams(config.Media))
