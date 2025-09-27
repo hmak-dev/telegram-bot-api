@@ -14,6 +14,8 @@ import (
 	"time"
 )
 
+const VERSION = "5.5.2"
+
 // HTTPClient is the type needed for the bot to perform HTTP requests.
 type HTTPClient interface {
 	Do(req *http.Request) (*http.Response, error)
@@ -58,6 +60,7 @@ func NewBotAPIWithClient(token, apiEndpoint string, client HTTPClient) (*BotAPI,
 		Client:          client,
 		Buffer:          100,
 		shutdownChannel: make(chan interface{}),
+		UserAgent:       "TelegramBot (https://github.com/go-telegram-bot-api/telegram-bot-api, v" + VERSION + ")",
 
 		apiEndpoint: apiEndpoint,
 	}
