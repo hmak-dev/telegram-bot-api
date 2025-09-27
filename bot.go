@@ -27,6 +27,7 @@ type BotAPI struct {
 
 	Self            User       `json:"-"`
 	Client          HTTPClient `json:"-"`
+	UserAgent       string     `json:"-"`
 	shutdownChannel chan interface{}
 
 	apiEndpoint string
@@ -105,6 +106,10 @@ func (bot *BotAPI) MakeRequest(endpoint string, params Params) (*APIResponse, er
 		return &APIResponse{}, err
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+	if bot.UserAgent != "" {
+		req.Header.Set("User-Agent", bot.UserAgent)
+	}
 
 	resp, err := bot.Client.Do(req)
 	if err != nil {
@@ -229,6 +234,10 @@ func (bot *BotAPI) UploadFiles(endpoint string, params Params, files []RequestFi
 	}
 
 	req.Header.Set("Content-Type", m.FormDataContentType())
+
+	if bot.UserAgent != "" {
+		req.Header.Set("User-Agent", bot.UserAgent)
+	}
 
 	resp, err := bot.Client.Do(req)
 	if err != nil {
